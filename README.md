@@ -23,8 +23,6 @@ If you want to toggle the use of chrome or firefox in headless mode set the head
 - -Dheadless=true
 - -Dheadless=false
 
-You don't need to worry about downloading the IEDriverServer, EdgeDriver, ChromeDriver , OperaChromiumDriver, or GeckoDriver binaries, this project will do that for you automatically.
-
 You can specify a grid to connect to where you can choose your browser, browser version and platform:
 
 - -Dremote=true 
@@ -44,12 +42,3 @@ You can also specify a proxy to use
 - -DproxyPort=8080
 
 If the tests fail screenshots will be saved in ${project.basedir}/target/screenshots
-
-If you need to force a binary overwrite you can do:
-
-- -Doverwrite.binaries=true
-
-You have probably got outdated driver binaries, by default they are not overwritten if they already exist to speed things up.  You have two options:
-
-- `mvn clean verify -Doverwrite.binaries=true`
-- Delete the `selenium_standalone_binaries` folder in your resources directory
