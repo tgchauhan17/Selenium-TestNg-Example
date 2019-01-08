@@ -18,7 +18,7 @@ public class ApmSiteTest extends DriverBase {
 
     //Declare a test URL variable
     public String testURL = "https://www.perfline25.com";
-    public String loginSuccessURL = "https://www.perfline25.com/views/secure/home.xhtml1";
+    public String loginSuccessURL = "https://www.perfline25.com/views/secure/home.xhtml";
     public String logoutSuccessURL = "https://www.perfline25.com/views/login.xhtml";
 
     //-----------------------------------Test Setup-----------------------------------

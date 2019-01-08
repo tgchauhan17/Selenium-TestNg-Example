@@ -8,19 +8,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>Selenium TestNG Example</name>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
@@ -36,8 +23,11 @@
         <driver-binary-downloader-maven-plugin.version>1.0.17</driver-binary-downloader-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <webdriver.chrome.driver>${project.basedir}/app-bin/chromedriver</webdriver.chrome.driver>
-        <webdriver.gecko.driver>${project.basedir}/app-bin/geckodriver</webdriver.gecko.driver>
+        <!--selenium driver path-->
+        <mac.webdriver.chrome.driver>${project.basedir}/app-bin/chromedriver</mac.webdriver.chrome.driver>
+        <mac.webdriver.gecko.driver>${project.basedir}/app-bin/geckodriver</mac.webdriver.gecko.driver>
+        <win.webdriver.chrome.driver>${project.basedir}/app-bin/chromedriver.exe</win.webdriver.chrome.driver>
+        <win.webdriver.gecko.driver>${project.basedir}/app-bin/geckodriver.exe</win.webdriver.gecko.driver>
         <!--Configuration Properties-->
         <overwrite.binaries>false</overwrite.binaries>
         <read.timeout>30000</read.timeout>
@@ -82,23 +72,68 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
-            <id>selenium-tests</id>
+            <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.7.1</version>
                         <configuration>
-                            <source>${java.version}</source>
-                            <target>${java.version}</target>
+                            <skipTests>true</skipTests>
                         </configuration>
-                        <version>${maven-compiler-plugin.version}</version>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <webdriver.gecko.driver>${win.webdriver.gecko.driver}</webdriver.gecko.driver>
+                <webdriver.chrome.driver>${win.webdriver.chrome.driver}</webdriver.chrome.driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <webdriver.gecko.driver>${mac.webdriver.gecko.driver}</webdriver.gecko.driver>
+                <webdriver.chrome.driver>${mac.webdriver.chrome.driver}</webdriver.chrome.driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>selenium-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.7.1</version>
@@ -117,49 +152,9 @@
 
                                 <!--Set properties passed in by the driver binary downloader-->
                                 <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-                                <!--<webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
-                                <webdriver.opera.driver>${webdriver.opera.driver}</webdriver.opera.driver>-->
                                 <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
-                                <!--<webdriver.edge.driver>${webdriver.edge.driver}</webdriver.edge.driver>-->
                             </systemPropertyVariables>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <configuration>
-                            <parallel>methods</parallel>
-                            <threadCount>${threads}</threadCount>
-                            <systemPropertyVariables>
-                                <browser>${browser}</browser>
-                                <screenshotDirectory>${project.build.directory}/screenshots</screenshotDirectory>
-                                <remoteDriver>${remote}</remoteDriver>
-                                <gridURL>${seleniumGridURL}</gridURL>
-                                <desiredPlatform>${platform}</desiredPlatform>
-                                <desiredBrowserVersion>${browserVersion}</desiredBrowserVersion>
-                                <proxyEnabled>${proxyEnabled}</proxyEnabled>
-                                <proxyHost>${proxyHost}</proxyHost>
-                                <proxyPort>${proxyPort}</proxyPort>
-                                <headless>${headless}</headless>
-
-                                <!--Set properties passed in by the driver binary downloader-->
-                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-                                <!--<webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
-                                <webdriver.opera.driver>${webdriver.opera.driver}</webdriver.opera.driver>-->
-                                <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
-                                <!--<webdriver.edge.driver>${webdriver.edge.driver}</webdriver.edge.driver>-->
-                            </systemPropertyVariables>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <!--This goal makes the build fail if you have test failures-->
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
