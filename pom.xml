@@ -28,6 +28,8 @@
         <mac.webdriver.gecko.driver>${project.basedir}/app-bin/mac/geckodriver</mac.webdriver.gecko.driver>
         <win.webdriver.chrome.driver>${project.basedir}/app-bin/windows/chromedriver.exe</win.webdriver.chrome.driver>
         <win.webdriver.gecko.driver>${project.basedir}/app-bin/windows/geckodriver.exe</win.webdriver.gecko.driver>
+        <win.webdriver.ie.driver>${project.basedir}/app-bin/windows/IEDriverServer.exe</win.webdriver.ie.driver>
+        <win.webdriver.edge.driver>${project.basedir}/app-bin/windows/MicrosoftWebDriver.exe</win.webdriver.edge.driver>
         <!--Configuration Properties-->
         <overwrite.binaries>false</overwrite.binaries>
         <read.timeout>30000</read.timeout>
@@ -113,6 +115,8 @@
             <properties>
                 <webdriver.gecko.driver>${win.webdriver.gecko.driver}</webdriver.gecko.driver>
                 <webdriver.chrome.driver>${win.webdriver.chrome.driver}</webdriver.chrome.driver>
+                <webdriver.ie.driver>${win.webdriver.ie.driver}</webdriver.ie.driver>
+                <webdriver.edge.driver>${win.webdriver.edge.driver}</webdriver.edge.driver>
             </properties>
         </profile>
         <profile>
@@ -151,8 +155,10 @@
                                 <headless>${headless}</headless>
 
                                 <!--Set properties passed in by the driver binary downloader-->
-
+                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
                                 <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
+                                <webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
+                                <webdriver.edge.driver>${webdriver.edge.driver}</webdriver.edge.driver>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
