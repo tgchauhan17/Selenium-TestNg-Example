@@ -38,7 +38,7 @@
         <browser>edge</browser>
         <threads>1</threads>
         <remote>false</remote>
-        <headless>false</headless>
+        <headless>true</headless>
         <seleniumGridURL/>
         <platform/>
         <browserVersion/>
