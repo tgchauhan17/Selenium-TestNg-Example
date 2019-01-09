@@ -24,10 +24,10 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <!--selenium driver path-->
-        <mac.webdriver.chrome.driver>${project.basedir}/app-bin/chromedriver</mac.webdriver.chrome.driver>
-        <mac.webdriver.gecko.driver>${project.basedir}/app-bin/geckodriver</mac.webdriver.gecko.driver>
-        <win.webdriver.chrome.driver>${project.basedir}/app-bin/chromedriver.exe</win.webdriver.chrome.driver>
-        <win.webdriver.gecko.driver>${project.basedir}/app-bin/geckodriver.exe</win.webdriver.gecko.driver>
+        <mac.webdriver.chrome.driver>${project.basedir}/app-bin/mac/chromedriver</mac.webdriver.chrome.driver>
+        <mac.webdriver.gecko.driver>${project.basedir}/app-bin/mac/geckodriver</mac.webdriver.gecko.driver>
+        <win.webdriver.chrome.driver>${project.basedir}/app-bin/windows/chromedriver.exe</win.webdriver.chrome.driver>
+        <win.webdriver.gecko.driver>${project.basedir}/app-bin/windows/geckodriver.exe</win.webdriver.gecko.driver>
         <!--Configuration Properties-->
         <overwrite.binaries>false</overwrite.binaries>
         <read.timeout>30000</read.timeout>
