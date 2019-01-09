@@ -33,7 +33,7 @@
         <read.timeout>30000</read.timeout>
         <connection.timeout>40000</connection.timeout>
         <retry.attempts>4</retry.attempts>
-        <browser>firefox</browser>
+        <browser>edge</browser>
         <threads>1</threads>
         <remote>false</remote>
         <headless>true</headless>
@@ -151,7 +151,7 @@
                                 <headless>${headless}</headless>
 
                                 <!--Set properties passed in by the driver binary downloader-->
-                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+
                                 <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
                             </systemPropertyVariables>
                         </configuration>
