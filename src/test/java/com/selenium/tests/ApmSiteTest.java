@@ -1,6 +1,8 @@
 package com.selenium.tests;
 
 import com.selenium.DriverBase;
+import com.selenium.page_objects.ApmHomePage;
+import com.selenium.page_objects.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,8 +20,8 @@ public class ApmSiteTest extends DriverBase {
 
     //Declare a test URL variable
     public String testURL = "https://www.perfline25.com";
-    public String loginSuccessURL = "https://www.perfline25.com/views/secure/home.xhtml";
-    public String logoutSuccessURL = "https://www.perfline25.com/views/login.xhtml";
+    public String username = "test@user.com";
+    public String password = "12345678";
 
     //-----------------------------------Test Setup-----------------------------------
     @BeforeMethod
@@ -40,23 +42,28 @@ public class ApmSiteTest extends DriverBase {
     //-----------------------------------Tests-----------------------------------
     @Test(priority = 1)
     public void checkTitle() throws Exception {
+        ApmHomePage apmHomePage = new ApmHomePage();
         // Check the title of the page
         System.out.println("Page title is: " + driver.getTitle());
-        Assert.assertEquals("APM Application", driver.getTitle());
+        Assert.assertEquals(apmHomePage.pageTitle, driver.getTitle());
     }
 
     @Test(priority = 2)
     public void loginLogoutTest() throws Exception {
+        ApmHomePage apmHomePage = new ApmHomePage();
         //click login
-        driver.findElement(By.xpath("//*[@id=\"top-menu\"]/form/li/a")).click();
-        driver.findElement(By.xpath("//*[@id=\"loginForm:login-email-text\"]")).sendKeys("test@user.com");
-        driver.findElement(By.xpath("//*[@id=\"loginForm:login-password-text\"]")).sendKeys("12345678");
-        WebElement subElement = driver.findElement(By.tagName("button"));
-        subElement.click();
-        Assert.assertEquals(loginSuccessURL, driver.getCurrentUrl());
+        apmHomePage.getLoginPage();
+        LoginPage loginPage = new LoginPage();
+        //enter username
+        loginPage.enterUsername(username);
+        //enter password
+        loginPage.enterPassword(password);
+        //click login button
+        loginPage.submitLogin();
+        Assert.assertEquals(loginPage.loginSuccessURL, driver.getCurrentUrl());
 
         //click logout
-        driver.findElement(By.xpath("//*[@id=\"top-menu\"]/form/li[4]/a")).click();
-        Assert.assertEquals(logoutSuccessURL, driver.getCurrentUrl());
+        loginPage.submitLogout();
+        Assert.assertEquals(loginPage.logoutSuccessURL, driver.getCurrentUrl());
     }
 }
