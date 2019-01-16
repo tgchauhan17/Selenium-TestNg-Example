@@ -19,7 +19,7 @@ public class ApmSiteTest extends DriverBase {
     public WebDriver driver;
 
     //Declare a test URL variable
-    public String testURL = "https://www.perfline25.com";
+    public String testURL = "http://localhost:8081";
     public String username = "test@user.com";
     public String password = "12345678";
 
