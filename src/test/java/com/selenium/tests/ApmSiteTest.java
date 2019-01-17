@@ -27,14 +27,14 @@ public class ApmSiteTest extends DriverBase {
     @BeforeMethod
     public void setupTest() throws Exception {
         //Create a new ChromeDriver
-        driver = getDriver();
+        //driver = getDriver();
         //To maximize a browser window
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenResolution = new Dimension((int)
                 toolkit.getScreenSize().getWidth(), (int)
                 toolkit.getScreenSize().getHeight());
 
-        driver.manage().window().setSize(screenResolution);
+        //driver.manage().window().setSize(screenResolution);
         //Go to test URL
         //driver.navigate().to(testURL);
     }
