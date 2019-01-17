@@ -36,7 +36,7 @@ public class ApmSiteTest extends DriverBase {
 
         driver.manage().window().setSize(screenResolution);
         //Go to test URL
-        driver.navigate().to(testURL);
+        //driver.navigate().to(testURL);
     }
 
     //-----------------------------------Tests-----------------------------------
