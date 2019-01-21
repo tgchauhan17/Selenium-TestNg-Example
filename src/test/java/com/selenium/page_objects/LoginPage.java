@@ -7,8 +7,8 @@ import static com.selenium.util.AssignDriver.initQueryObjects;
 
 public class LoginPage {
 
-    public static final String loginSuccessURL = "http://localhost:8081/views/secure/home.xhtml";
-    public static final String logoutSuccessURL = "http://localhost:8081/views/login.xhtml";
+    public static final String loginSuccessURL = "https://www.perfline25.com/views/secure/home.xhtml";
+    public static final String logoutSuccessURL = "https://www.perfline25.com/views/login.xhtml";
     private Query usernameInputTxt = new Query().defaultLocator(By.xpath("//*[@id=\"loginForm:login-email-text\"]"));
     private Query passwordInputTxt = new Query().defaultLocator(By.xpath("//*[@id=\"loginForm:login-password-text\"]"));
     private Query loginBtn = new Query().defaultLocator(By.tagName("button"));
