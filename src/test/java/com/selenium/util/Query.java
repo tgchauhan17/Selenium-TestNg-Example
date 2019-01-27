@@ -4,6 +4,8 @@ import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 public class Query {
 
     private RemoteWebDriver driver;
+    private EventFiringWebDriver eDriver;
     private String currentType;
     private By defaultLocator;
     private HashMap<String, By> customLocators = new HashMap<>();
@@ -36,7 +39,7 @@ public class Query {
     /**
      * Specify a alternate locator for a specific browser/device type.
      * <p>
-     * Any actions that use a By object will examine the `browserName` or `PLATFORM_NAME` capability of the current driver,
+     * Any actions that use a By object will examine the `browserName` or `PLATFORM_NAME` capability of the current eDriver,
      * if it matches what you have specified here this by will be used instead.
      * The browserName/PLATFORM_NAME check is case insensitive!
      * <p>
@@ -62,14 +65,17 @@ public class Query {
     }
 
     /**
-     * Specify the driver object that will be used to find elements
+     * Specify the eDriver object that will be used to find elements
      *
      * @param driverObject
      * @return this
      */
-    public Query usingDriver(RemoteWebDriver driverObject) {
+    public Query usingDriver(RemoteWebDriver driverObject, WebDriverEventListener eventListener) {
         if (null != driverObject) {
             driver = driverObject;
+            // Initializing EventFiringWebDriver using WebDriver instance
+            eDriver = new EventFiringWebDriver(driverObject);
+            eDriver.register(eventListener);
             Object automationName = driver.getCapabilities().getCapability("automationName");
             isAppiumDriver = (null != automationName) && automationName.toString().toLowerCase().equals("appium");
             currentType = driver.getCapabilities().getBrowserName();
@@ -89,7 +95,7 @@ public class Query {
      * @return WebElement
      */
     public WebElement findWebElement() {
-        return driver.findElement(by());
+        return eDriver.findElement(by());
     }
 
     /**
@@ -99,7 +105,7 @@ public class Query {
      */
     public MobileElement findMobileElement() {
         if (isAppiumDriver) {
-            return (MobileElement) driver.findElement(by());
+            return (MobileElement) eDriver.findElement(by());
         }
         throw new UnsupportedOperationException("You don't seem to be using Appium!");
     }
@@ -110,7 +116,7 @@ public class Query {
      * @return List&lt;WebElement>&gt;
      */
     public List<WebElement> findWebElements() {
-        return driver.findElements(by());
+        return eDriver.findElements(by());
     }
 
     /**
@@ -120,7 +126,7 @@ public class Query {
      */
     public List<MobileElement> findMobileElements() {
         if (isAppiumDriver) {
-            List<WebElement> elementsFound = driver.findElements(by());
+            List<WebElement> elementsFound = eDriver.findElements(by());
             List<MobileElement> mobileElementsToReturn = new ArrayList<>();
             for (WebElement element : elementsFound) {
                 mobileElementsToReturn.add((MobileElement) element);
@@ -140,14 +146,14 @@ public class Query {
     }
 
     /**
-     * This will return the By object currently associated with your driver object.
+     * This will return the By object currently associated with your eDriver object.
      * This is useful for passing into ExpectedConditions
      *
      * @return By
      */
     public By by() {
         if (!driverIsSet()) {
-            throw new IllegalStateException("Driver object has not been set... You must call 'Query.initQueryObject(driver);'!");
+            throw new IllegalStateException("Driver object has not been set... You must call 'Query.initQueryObject(eDriver);'!");
         }
         By locatorToReturn = customLocators.getOrDefault(currentType.toUpperCase(), defaultLocator);
 
@@ -163,7 +169,7 @@ public class Query {
     }
 
     boolean driverIsSet() {
-        return null != driver;
+        return null != eDriver;
     }
 
     @Override
@@ -172,7 +178,7 @@ public class Query {
         if (o == null || getClass() != o.getClass()) return false;
         Query query = (Query) o;
         return isAppiumDriver == query.isAppiumDriver &&
-                Objects.equals(driver, query.driver) &&
+                Objects.equals(eDriver, query.eDriver) &&
                 Objects.equals(currentType, query.currentType) &&
                 Objects.equals(defaultLocator, query.defaultLocator) &&
                 Objects.equals(customLocators, query.customLocators);
@@ -180,6 +186,6 @@ public class Query {
 
     @Override
     public int hashCode() {
-        return Objects.hash(driver, currentType, defaultLocator, customLocators, isAppiumDriver);
+        return Objects.hash(eDriver, currentType, defaultLocator, customLocators, isAppiumDriver);
     }
 }
